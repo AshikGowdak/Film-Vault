@@ -1,9 +1,10 @@
-import React, { useState ,useEffect } from "react";
+import React from "react";
+import  { useState ,useEffect } from "react";
 import MoviesCard from "./MoviesCard";
 import axios from "axios";
 import Pagination from "./Pagination";
 
-function Movies() {
+function Movies({handleAddToWatchList , handleRemoveFromWatchList , watchlist}) {
 
   // State to hold movies data
   const [movies, setMovies] = useState([]);
@@ -39,7 +40,7 @@ function Movies() {
       <div className="flex flex-row flex-wrap justify-around gap-6">
         
         {movies.map((movieObj) => {
-          return <MoviesCard poster_path={movieObj.poster_path} name={movieObj.original_title}/>;
+          return <MoviesCard  key={movieObj.id} movieObj={movieObj} poster_path={movieObj.poster_path} name={movieObj.original_title} handleAddToWatchList={handleAddToWatchList}  handleRemoveFromWatchList={handleRemoveFromWatchList} watchlist={watchlist}/>;
         })}
 
       </div>
