@@ -9,36 +9,36 @@ import { Route, Routes, BrowserRouter } from "react-router-dom";
 import Banner from "./Components/Banner";
 
 function App() {
-
-  let[watchlist,setWatchList] = useState([])
+  let [watchlist, setWatchList] = useState([]);
 
   // Function to add movie to watchlist
-  let handleAddToWatchList=(movieObj)=>{
-      let newWatchList=[...watchlist,movieObj];
-      //used local storage to store watchlist data
-      localStorage.setItem('moviesApp',JSON.stringify(newWatchList))
-      setWatchList(newWatchList)
-      console.log(newWatchList)
-  }
+  let handleAddToWatchList = (movieObj) => {
+    let newWatchList = [...watchlist, movieObj];
+    //used local storage to store watchlist data
+    localStorage.setItem("moviesApp", JSON.stringify(newWatchList));
+    setWatchList(newWatchList);
+    console.log(newWatchList);
+  };
 
   // Function to remove movie from watchlist
-  let handleRemoveFromWatchList=(movieObj)=>{
-    let filterWatchlist= watchlist.filter((movie)=>{
-      return movie.id != movieObj.id
-    })
+  let handleRemoveFromWatchList = (movieObj) => {
+    let filterWatchlist = watchlist.filter((movie) => {
+      return movie.id != movieObj.id;
+    });
+    // Updating local storage after removing movie
+    localStorage.setItem("moviesApp", JSON.stringify(filterWatchlist));
+    setWatchList(filterWatchlist);
+    console.log(filterWatchlist);
+  };
 
-    setWatchList(filterWatchlist)
-    console.log(filterWatchlist)
-  }
-
-// To load watchlist from local storage when app loads
-  useEffect(()=>{
-    let moviesFromLocalStorage =  localStorage.getItem('moviesApp')
-    if(!moviesFromLocalStorage){
+  // To load watchlist from local storage when app loads
+  useEffect(() => {
+    let moviesFromLocalStorage = localStorage.getItem("moviesApp");
+    if (!moviesFromLocalStorage) {
       return;
     }
-    setWatchList(JSON.parse(moviesFromLocalStorage))
-  },[])
+    setWatchList(JSON.parse(moviesFromLocalStorage));
+  }, []);
 
   return (
     <>
@@ -50,12 +50,25 @@ function App() {
             path="/"
             element={
               <>
-              
-                <Banner /> <Movies  watchlist={watchlist} handleAddToWatchList={handleAddToWatchList}  handleRemoveFromWatchList={handleRemoveFromWatchList}/>
+                <Banner />{" "}
+                <Movies
+                  watchlist={watchlist}
+                  handleAddToWatchList={handleAddToWatchList}
+                  handleRemoveFromWatchList={handleRemoveFromWatchList}
+                />
               </>
             }
           />
-          <Route path="/WatchList" element={<WatchList watchlist={watchlist}/>} />
+          <Route
+            path="/WatchList"
+            element={
+              <WatchList
+                watchlist={watchlist}
+                setWatchlist={setWatchList}
+                handleRemoveFromWatchList={handleRemoveFromWatchList}
+              />
+            }
+          />
         </Routes>
       </BrowserRouter>
     </>

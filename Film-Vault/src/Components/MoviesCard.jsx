@@ -8,7 +8,6 @@ function MoviesCard({
   handleRemoveFromWatchList,
   watchlist,
 }) {
-
   // Function to check if movie is already in watchlist
   function doesContain(movieObj) {
     for (let i = 0; i < watchlist.length; i++) {
